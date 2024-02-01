@@ -4,7 +4,6 @@ import com.example.security_jwt.service.JwtService;
 import com.example.security_jwt.token.Token;
 import com.example.security_jwt.token.TokenRepository;
 import com.example.security_jwt.token.TokenType;
-import com.example.security_jwt.user.Role;
 import com.example.security_jwt.user.User;
 import com.example.security_jwt.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,10 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -37,7 +33,7 @@ public class AuthenticationService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.USER)
+                .role(request.getRole())
                 .build();
         var savedUser=repository.save(user);
         var jwtToken=jwtService.generateToken(user);
